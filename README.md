@@ -233,7 +233,29 @@ mvn test
 
 ## 项目截图
 
-> 截图待补充
+### 登录页
+![登录页](doc/images/登录页.png)
+
+### Dashboard 首页
+![Dashboard](doc/images/dashboard.png)
+
+### 用户管理
+![用户管理](doc/images/用户管理.png)
+
+### 菜单管理
+![菜单管理](doc/images/菜单管理.png)
+
+### 角色权限管理
+![角色权限管理](doc/images/角色权限管理.png)
+
+### 富文本公告
+![富文本公告](doc/images/富文本公告.png)
+
+### 数据大屏
+![数据大屏](doc/images/数据大屏.png)
+
+### 暗色主题
+![暗色主题](doc/images/暗色主题.png)
 
 ## License
 
