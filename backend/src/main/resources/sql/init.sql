@@ -3,6 +3,8 @@
 -- 数据库: demo_admin
 -- ===============================================
 
+SET NAMES utf8mb4;
+
 -- 创建数据库
 CREATE DATABASE IF NOT EXISTS `demo_admin` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
