@@ -143,7 +143,9 @@ docker compose up -d --build
 - 按依赖顺序启动：MySQL → Redis → Backend → Frontend
 - MySQL 容器自动执行 `init.sql` 建表和初始化数据
 
-启动完成后访问 http://localhost ，使用 `admin / admin123` 登录。
+启动完成后访问 http://localhost:3000 ，使用 `admin / admin123` 登录。
+
+> **生产部署提示**：仅前端容器暴露宿主机 3000 端口，后端/MySQL/Redis 仅在 Docker 内部网络通信。建议使用宿主机 Nginx 反代 `proxy_pass http://127.0.0.1:3000` 到 80/443 端口并配置 SSL。
 
 #### 验证服务状态
 

@@ -9,8 +9,8 @@ services:
       MYSQL_DATABASE: demo_admin
       MYSQL_CHARSET: utf8mb4
       TZ: Asia/Shanghai
-    ports:
-      - "3306:3306"
+    expose:
+      - "3306"
     volumes:
       - mysql-data:/var/lib/mysql
       - ./backend/src/main/resources/sql/init.sql:/docker-entrypoint-initdb.d/01-init.sql
@@ -26,8 +26,8 @@ services:
   redis:
     image: redis:7-alpine
     container_name: demo-redis
-    ports:
-      - "6379:6379"
+    expose:
+      - "6379"
     volumes:
       - redis-data:/data
     healthcheck:
@@ -46,8 +46,8 @@ services:
         condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: docker
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
     volumes:
       - uploads-data:/app/uploads
 
@@ -57,7 +57,7 @@ services:
     depends_on:
       - backend
     ports:
-      - "80:80"
+      - "3000:80"
 
 volumes:
   mysql-data:
