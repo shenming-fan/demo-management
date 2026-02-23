@@ -1,0 +1,114 @@
+/* ===== MOBILE RESPONSIVE ===== */
+.header-collapse-mobile {
+  display: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .login-decor {
+    display: none;
+  }
+
+  .dashboard-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-row {
+    grid-template-columns: 1fr;
+  }
+
+  /* Hide desktop sidebar, show mobile drawer toggle */
+  .layout-sidebar-desktop {
+    display: none !important;
+  }
+
+  .header-collapse-desktop {
+    display: none;
+  }
+
+  .header-collapse-mobile {
+    display: flex;
+  }
+
+  .header-hide-mobile {
+    display: none;
+  }
+
+  /* Header adjustments */
+  .layout-header {
+    padding: 0 12px !important;
+  }
+
+  .header-right {
+    gap: 8px;
+  }
+
+  .header-user-name {
+    display: none;
+  }
+
+  .header-breadcrumb {
+    display: none;
+  }
+
+  /* Content */
+  .layout-content {
+    margin: 12px !important;
+  }
+
+  /* Table horizontal scroll */
+  .page-table-card {
+    overflow-x: auto;
+  }
+
+  .page-table-card .ant-table {
+    min-width: 600px;
+  }
+
+  /* Search form */
+  .page-search {
+    padding: 12px 12px 0;
+  }
+
+  /* Server monitor */
+  .server-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .server-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Tabs */
+  .layout-tabs {
+    padding: 4px 8px 0;
+  }
+
+  /* Profile */
+  .profile-container {
+    padding: 16px;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .shortcut-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .login-form-side {
+    padding: 20px;
+  }
+
+  .login-form-container {
+    max-width: 100%;
+  }
+}

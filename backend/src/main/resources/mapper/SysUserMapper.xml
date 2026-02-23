@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.admin.modules.system.mapper.SysUserMapper">
+
+    <select id="selectByUsername" resultType="com.demo.admin.modules.system.entity.SysUser">
+        SELECT * FROM sys_user WHERE username = #{username} AND deleted = 0
+    </select>
+
+    <select id="selectRoleCodesByUserId" resultType="java.lang.String">
+        SELECT r.code
+        FROM sys_role r
+        INNER JOIN sys_user_role ur ON r.id = ur.role_id
+        WHERE ur.user_id = #{userId} AND r.status = 1 AND r.deleted = 0
+    </select>
+
+    <select id="selectPermissionsByUserId" resultType="java.lang.String">
+        SELECT DISTINCT m.permission
+        FROM sys_menu m
+        INNER JOIN sys_role_menu rm ON m.id = rm.menu_id
+        INNER JOIN sys_user_role ur ON rm.role_id = ur.role_id
+        WHERE ur.user_id = #{userId}
+          AND m.permission IS NOT NULL
+          AND m.permission != ''
+          AND m.status = 1
+          AND m.deleted = 0
+    </select>
+
+    <select id="selectUserPage" resultType="com.demo.admin.modules.system.entity.SysUser">
+        SELECT u.*,
+            GROUP_CONCAT(DISTINCT r.name) AS role_names,
+            GROUP_CONCAT(DISTINCT p.post_name) AS post_names,
+            d.name AS dept_name
+        FROM sys_user u
+        LEFT JOIN sys_user_role ur ON u.id = ur.user_id
+        LEFT JOIN sys_role r ON ur.role_id = r.id AND r.deleted = 0
+        LEFT JOIN sys_user_post up ON u.id = up.user_id
+        LEFT JOIN sys_post p ON up.post_id = p.id AND p.deleted = 0
+        LEFT JOIN sys_dept d ON u.dept_id = d.id AND d.deleted = 0
+        WHERE u.deleted = 0
+        <if test="username != null and username != ''">
+            AND u.username LIKE CONCAT('%', #{username}, '%')
+        </if>
+        <if test="phone != null and phone != ''">
+            AND u.phone LIKE CONCAT('%', #{phone}, '%')
+        </if>
+        <if test="status != null">
+            AND u.status = #{status}
+        </if>
+        <if test="roleId != null">
+            AND ur.role_id = #{roleId}
+        </if>
+        <if test="deptIds != null and deptIds.size() > 0">
+            AND u.dept_id IN
+            <foreach collection="deptIds" item="deptId" open="(" separator="," close=")">
+                #{deptId}
+            </foreach>
+        </if>
+        GROUP BY u.id
+        ORDER BY u.create_time DESC
+    </select>
+
+</mapper>

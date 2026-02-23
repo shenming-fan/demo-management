@@ -1,0 +1,51 @@
+/* ===== ANT DESIGN OVERRIDES ===== */
+.ant-menu-dark {
+  background: transparent !important;
+}
+
+.ant-menu-dark .ant-menu-item-selected {
+  background: var(--color-sidebar-active) !important;
+  border-radius: 8px;
+}
+
+.ant-menu-dark .ant-menu-item {
+  border-radius: 8px;
+  margin: 2px 8px !important;
+  transition: all 0.2s;
+}
+
+.ant-menu-dark .ant-menu-item:hover {
+  background: var(--color-sidebar-hover) !important;
+}
+
+.ant-menu-dark .ant-menu-sub {
+  background: transparent !important;
+}
+
+.ant-table-thead > tr > th,
+.ant-table-thead > tr > td {
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  color: var(--color-text-secondary) !important;
+}
+
+.ant-table-tbody > tr > td {
+  font-size: 13px !important;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background: var(--color-primary-light) !important;
+}
+
+.ant-btn-primary {
+  box-shadow: none !important;
+}
+
+.ant-modal .ant-modal-header {
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 16px;
+}
+
+.ant-modal .ant-modal-title {
+  font-weight: 600;
+}

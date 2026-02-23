@@ -1,0 +1,40 @@
+/* ===== DARK MODE ===== */
+[data-theme="dark"] {
+  --color-bg: #141414;
+  --color-surface: #1f1f1f;
+  --color-text: #e8e8e8;
+  --color-text-secondary: #8c8c8c;
+  --color-border: #303030;
+  --color-primary-light: rgba(192, 107, 62, 0.15);
+  --color-primary-border: rgba(192, 107, 62, 0.35);
+  --color-sidebar: #141414;
+  --color-sidebar-hover: rgba(255, 255, 255, 0.08);
+  --color-sidebar-active: rgba(192, 107, 62, 0.2);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] body {
+  color-scheme: dark;
+}
+
+[data-theme="dark"] .layout-sidebar {
+  border-right-color: var(--color-border);
+}
+
+[data-theme="dark"] .sidebar-logo {
+  border-bottom-color: var(--color-border);
+}
+
+[data-theme="dark"] .login-wrapper {
+  background: var(--color-bg);
+}
+
+[data-theme="dark"] .login-form-title {
+  color: var(--color-text);
+}
+
+[data-theme="dark"] .login-form-desc {
+  color: var(--color-text-secondary);
+}
