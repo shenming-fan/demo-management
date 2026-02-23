@@ -208,6 +208,175 @@ CREATE TABLE `sys_dict_data` (
     KEY `idx_dict_type` (`dict_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典数据表';
 
+-- -----------------------------------------------
+-- 部门表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `sys_dept`;
+CREATE TABLE `sys_dept` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '部门ID',
+    `parent_id` BIGINT DEFAULT 0 COMMENT '父级ID',
+    `name` VARCHAR(50) NOT NULL COMMENT '部门名称',
+    `sort` INT DEFAULT 0 COMMENT '排序',
+    `leader` VARCHAR(50) DEFAULT NULL COMMENT '负责人',
+    `phone` VARCHAR(20) DEFAULT NULL COMMENT '联系电话',
+    `status` TINYINT DEFAULT 1 COMMENT '状态：0-禁用，1-正常',
+    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `deleted` TINYINT DEFAULT 0 COMMENT '删除标志：0-未删除，1-已删除',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='部门表';
+
+-- -----------------------------------------------
+-- 登录日志表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `sys_login_log`;
+CREATE TABLE `sys_login_log` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '日志ID',
+    `username` VARCHAR(50) DEFAULT NULL COMMENT '登录用户',
+    `status` TINYINT DEFAULT 1 COMMENT '登录状态：0-失败，1-成功',
+    `ip` VARCHAR(50) DEFAULT NULL COMMENT 'IP地址',
+    `message` VARCHAR(255) DEFAULT NULL COMMENT '提示消息',
+    `user_agent` VARCHAR(500) DEFAULT NULL COMMENT '浏览器UA',
+    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '登录时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_create_time` (`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='登录日志表';
+
+-- -----------------------------------------------
+-- 代码生成 - 表信息
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `gen_table`;
+CREATE TABLE `gen_table` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '表ID',
+    `table_name` VARCHAR(200) NOT NULL COMMENT '表名称',
+    `table_comment` VARCHAR(500) DEFAULT '' COMMENT '表描述',
+    `class_name` VARCHAR(200) NOT NULL COMMENT '实体类名',
+    `package_name` VARCHAR(200) DEFAULT 'com.demo.admin' COMMENT '生成包路径',
+    `module_name` VARCHAR(50) DEFAULT NULL COMMENT '模块名',
+    `business_name` VARCHAR(50) DEFAULT NULL COMMENT '业务名',
+    `function_name` VARCHAR(100) DEFAULT NULL COMMENT '功能名称',
+    `author` VARCHAR(50) DEFAULT 'admin' COMMENT '作者',
+    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_table_name` (`table_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='代码生成-表信息';
+
+-- -----------------------------------------------
+-- 代码生成 - 列信息
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `gen_table_column`;
+CREATE TABLE `gen_table_column` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '列ID',
+    `table_id` BIGINT NOT NULL COMMENT '所属表ID',
+    `column_name` VARCHAR(200) NOT NULL COMMENT '列名称',
+    `column_comment` VARCHAR(500) DEFAULT '' COMMENT '列描述',
+    `column_type` VARCHAR(100) NOT NULL COMMENT '列类型',
+    `java_type` VARCHAR(100) DEFAULT NULL COMMENT 'Java类型',
+    `java_field` VARCHAR(200) DEFAULT NULL COMMENT 'Java字段名',
+    `ts_type` VARCHAR(50) DEFAULT NULL COMMENT 'TypeScript类型',
+    `is_pk` TINYINT DEFAULT 0 COMMENT '是否主键：0-否，1-是',
+    `is_required` TINYINT DEFAULT 0 COMMENT '是否必填：0-否，1-是',
+    `is_list` TINYINT DEFAULT 1 COMMENT '是否列表显示：0-否，1-是',
+    `is_query` TINYINT DEFAULT 0 COMMENT '是否查询条件：0-否，1-是',
+    `query_type` VARCHAR(20) DEFAULT 'EQ' COMMENT '查询方式：EQ/LIKE/BETWEEN',
+    `is_edit` TINYINT DEFAULT 1 COMMENT '是否编辑字段：0-否，1-是',
+    `html_type` VARCHAR(50) DEFAULT 'input' COMMENT '表单组件：input/select/radio/datetime/textarea',
+    `dict_type` VARCHAR(100) DEFAULT '' COMMENT '字典类型',
+    `sort` INT DEFAULT 0 COMMENT '排序',
+    PRIMARY KEY (`id`),
+    KEY `idx_table_id` (`table_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='代码生成-列信息';
+
+-- -----------------------------------------------
+-- 通知公告表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `sys_notice`;
+CREATE TABLE `sys_notice` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '公告ID',
+    `title` VARCHAR(100) NOT NULL COMMENT '公告标题',
+    `type` TINYINT NOT NULL COMMENT '公告类型：1-通知，2-公告',
+    `content` TEXT DEFAULT NULL COMMENT '公告内容',
+    `status` TINYINT DEFAULT 1 COMMENT '状态：0-关闭，1-正常',
+    `create_by` VARCHAR(50) DEFAULT NULL COMMENT '创建人',
+    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `deleted` TINYINT DEFAULT 0 COMMENT '删除标志：0-未删除，1-已删除',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='通知公告表';
+
+-- -----------------------------------------------
+-- 公告已读记录表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `sys_notice_read`;
+CREATE TABLE `sys_notice_read` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `notice_id` BIGINT NOT NULL COMMENT '公告ID',
+    `user_id` BIGINT NOT NULL COMMENT '用户ID',
+    `read_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '阅读时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_notice_user` (`notice_id`, `user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='公告已读记录表';
+
+-- -----------------------------------------------
+-- 定时任务表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `sys_job`;
+CREATE TABLE `sys_job` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '任务ID',
+    `job_name` VARCHAR(100) NOT NULL COMMENT '任务名称',
+    `job_group` VARCHAR(50) DEFAULT 'DEFAULT' COMMENT '任务组名',
+    `cron_expression` VARCHAR(100) NOT NULL COMMENT 'Cron表达式',
+    `bean_name` VARCHAR(200) NOT NULL COMMENT '调用目标Bean',
+    `method_name` VARCHAR(100) NOT NULL COMMENT '调用方法名',
+    `params` VARCHAR(500) DEFAULT NULL COMMENT '方法参数',
+    `status` TINYINT DEFAULT 0 COMMENT '状态：0-暂停，1-运行',
+    `remark` VARCHAR(500) DEFAULT NULL COMMENT '备注',
+    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `deleted` TINYINT DEFAULT 0 COMMENT '删除标志：0-未删除，1-已删除',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='定时任务表';
+
+-- -----------------------------------------------
+-- 定时任务日志表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `sys_job_log`;
+CREATE TABLE `sys_job_log` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '日志ID',
+    `job_id` BIGINT NOT NULL COMMENT '任务ID',
+    `job_name` VARCHAR(100) DEFAULT NULL COMMENT '任务名称',
+    `bean_name` VARCHAR(200) DEFAULT NULL COMMENT '调用目标',
+    `method_name` VARCHAR(100) DEFAULT NULL COMMENT '调用方法',
+    `params` VARCHAR(500) DEFAULT NULL COMMENT '方法参数',
+    `status` TINYINT DEFAULT 1 COMMENT '执行状态：0-失败，1-成功',
+    `message` VARCHAR(2000) DEFAULT NULL COMMENT '执行信息',
+    `duration` BIGINT DEFAULT 0 COMMENT '执行时长(毫秒)',
+    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '执行时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_job_id` (`job_id`),
+    KEY `idx_create_time` (`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='定时任务日志表';
+
+-- -----------------------------------------------
+-- 文件表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `sys_file`;
+CREATE TABLE `sys_file` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '文件ID',
+    `original_name` VARCHAR(255) NOT NULL COMMENT '原始文件名',
+    `file_name` VARCHAR(255) NOT NULL COMMENT '存储文件名',
+    `file_path` VARCHAR(500) NOT NULL COMMENT '文件存储路径',
+    `file_size` BIGINT DEFAULT 0 COMMENT '文件大小(字节)',
+    `file_type` VARCHAR(100) DEFAULT NULL COMMENT '文件MIME类型',
+    `url` VARCHAR(500) DEFAULT NULL COMMENT '文件访问URL',
+    `create_by` VARCHAR(64) DEFAULT NULL COMMENT '上传人',
+    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `deleted` TINYINT DEFAULT 0 COMMENT '删除标志：0-未删除，1-已删除',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统文件表';
+
 -- ===============================================
 -- 初始化数据
 -- ===============================================
@@ -383,169 +552,3 @@ INSERT INTO `sys_dept` (`parent_id`, `name`, `sort`, `leader`, `status`) VALUES
 (1, '技术部', 1, NULL, 1),
 (1, '市场部', 2, NULL, 1),
 (1, '财务部', 3, NULL, 1);
-
--- -----------------------------------------------
--- 部门表
--- -----------------------------------------------
-DROP TABLE IF EXISTS `sys_dept`;
-CREATE TABLE `sys_dept` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '部门ID',
-    `parent_id` BIGINT DEFAULT 0 COMMENT '父级ID',
-    `name` VARCHAR(50) NOT NULL COMMENT '部门名称',
-    `sort` INT DEFAULT 0 COMMENT '排序',
-    `leader` VARCHAR(50) DEFAULT NULL COMMENT '负责人',
-    `phone` VARCHAR(20) DEFAULT NULL COMMENT '联系电话',
-    `status` TINYINT DEFAULT 1 COMMENT '状态：0-禁用，1-正常',
-    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `deleted` TINYINT DEFAULT 0 COMMENT '删除标志：0-未删除，1-已删除',
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='部门表';
-
--- -----------------------------------------------
--- 登录日志表
--- -----------------------------------------------
-DROP TABLE IF EXISTS `sys_login_log`;
-CREATE TABLE `sys_login_log` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '日志ID',
-    `username` VARCHAR(50) DEFAULT NULL COMMENT '登录用户',
-    `status` TINYINT DEFAULT 1 COMMENT '登录状态：0-失败，1-成功',
-    `ip` VARCHAR(50) DEFAULT NULL COMMENT 'IP地址',
-    `message` VARCHAR(255) DEFAULT NULL COMMENT '提示消息',
-    `user_agent` VARCHAR(500) DEFAULT NULL COMMENT '浏览器UA',
-    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '登录时间',
-    PRIMARY KEY (`id`),
-    KEY `idx_create_time` (`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='登录日志表';
-
--- -----------------------------------------------
--- 代码生成 - 表信息
--- -----------------------------------------------
-DROP TABLE IF EXISTS `gen_table`;
-CREATE TABLE `gen_table` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '表ID',
-    `table_name` VARCHAR(200) NOT NULL COMMENT '表名称',
-    `table_comment` VARCHAR(500) DEFAULT '' COMMENT '表描述',
-    `class_name` VARCHAR(200) NOT NULL COMMENT '实体类名',
-    `package_name` VARCHAR(200) DEFAULT 'com.demo.admin' COMMENT '生成包路径',
-    `module_name` VARCHAR(50) DEFAULT NULL COMMENT '模块名',
-    `business_name` VARCHAR(50) DEFAULT NULL COMMENT '业务名',
-    `function_name` VARCHAR(100) DEFAULT NULL COMMENT '功能名称',
-    `author` VARCHAR(50) DEFAULT 'admin' COMMENT '作者',
-    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `uk_table_name` (`table_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='代码生成-表信息';
-
--- -----------------------------------------------
--- 代码生成 - 列信息
--- -----------------------------------------------
-DROP TABLE IF EXISTS `gen_table_column`;
-CREATE TABLE `gen_table_column` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '列ID',
-    `table_id` BIGINT NOT NULL COMMENT '所属表ID',
-    `column_name` VARCHAR(200) NOT NULL COMMENT '列名称',
-    `column_comment` VARCHAR(500) DEFAULT '' COMMENT '列描述',
-    `column_type` VARCHAR(100) NOT NULL COMMENT '列类型',
-    `java_type` VARCHAR(100) DEFAULT NULL COMMENT 'Java类型',
-    `java_field` VARCHAR(200) DEFAULT NULL COMMENT 'Java字段名',
-    `ts_type` VARCHAR(50) DEFAULT NULL COMMENT 'TypeScript类型',
-    `is_pk` TINYINT DEFAULT 0 COMMENT '是否主键：0-否，1-是',
-    `is_required` TINYINT DEFAULT 0 COMMENT '是否必填：0-否，1-是',
-    `is_list` TINYINT DEFAULT 1 COMMENT '是否列表显示：0-否，1-是',
-    `is_query` TINYINT DEFAULT 0 COMMENT '是否查询条件：0-否，1-是',
-    `query_type` VARCHAR(20) DEFAULT 'EQ' COMMENT '查询方式：EQ/LIKE/BETWEEN',
-    `is_edit` TINYINT DEFAULT 1 COMMENT '是否编辑字段：0-否，1-是',
-    `html_type` VARCHAR(50) DEFAULT 'input' COMMENT '表单组件：input/select/radio/datetime/textarea',
-    `dict_type` VARCHAR(100) DEFAULT '' COMMENT '字典类型',
-    `sort` INT DEFAULT 0 COMMENT '排序',
-    PRIMARY KEY (`id`),
-    KEY `idx_table_id` (`table_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='代码生成-列信息';
-
--- -----------------------------------------------
--- 通知公告表
--- -----------------------------------------------
-DROP TABLE IF EXISTS `sys_notice`;
-CREATE TABLE `sys_notice` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '公告ID',
-    `title` VARCHAR(100) NOT NULL COMMENT '公告标题',
-    `type` TINYINT NOT NULL COMMENT '公告类型：1-通知，2-公告',
-    `content` TEXT DEFAULT NULL COMMENT '公告内容',
-    `status` TINYINT DEFAULT 1 COMMENT '状态：0-关闭，1-正常',
-    `create_by` VARCHAR(50) DEFAULT NULL COMMENT '创建人',
-    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `deleted` TINYINT DEFAULT 0 COMMENT '删除标志：0-未删除，1-已删除',
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='通知公告表';
-
--- -----------------------------------------------
--- 公告已读记录表
--- -----------------------------------------------
-DROP TABLE IF EXISTS `sys_notice_read`;
-CREATE TABLE `sys_notice_read` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `notice_id` BIGINT NOT NULL COMMENT '公告ID',
-    `user_id` BIGINT NOT NULL COMMENT '用户ID',
-    `read_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '阅读时间',
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `uk_notice_user` (`notice_id`, `user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='公告已读记录表';
-
--- -----------------------------------------------
--- 定时任务表
--- -----------------------------------------------
-DROP TABLE IF EXISTS `sys_job`;
-CREATE TABLE `sys_job` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '任务ID',
-    `job_name` VARCHAR(100) NOT NULL COMMENT '任务名称',
-    `job_group` VARCHAR(50) DEFAULT 'DEFAULT' COMMENT '任务组名',
-    `cron_expression` VARCHAR(100) NOT NULL COMMENT 'Cron表达式',
-    `bean_name` VARCHAR(200) NOT NULL COMMENT '调用目标Bean',
-    `method_name` VARCHAR(100) NOT NULL COMMENT '调用方法名',
-    `params` VARCHAR(500) DEFAULT NULL COMMENT '方法参数',
-    `status` TINYINT DEFAULT 0 COMMENT '状态：0-暂停，1-运行',
-    `remark` VARCHAR(500) DEFAULT NULL COMMENT '备注',
-    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `deleted` TINYINT DEFAULT 0 COMMENT '删除标志：0-未删除，1-已删除',
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='定时任务表';
-
--- -----------------------------------------------
--- 定时任务日志表
--- -----------------------------------------------
-DROP TABLE IF EXISTS `sys_job_log`;
-CREATE TABLE `sys_job_log` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '日志ID',
-    `job_id` BIGINT NOT NULL COMMENT '任务ID',
-    `job_name` VARCHAR(100) DEFAULT NULL COMMENT '任务名称',
-    `bean_name` VARCHAR(200) DEFAULT NULL COMMENT '调用目标',
-    `method_name` VARCHAR(100) DEFAULT NULL COMMENT '调用方法',
-    `params` VARCHAR(500) DEFAULT NULL COMMENT '方法参数',
-    `status` TINYINT DEFAULT 1 COMMENT '执行状态：0-失败，1-成功',
-    `message` VARCHAR(2000) DEFAULT NULL COMMENT '执行信息',
-    `duration` BIGINT DEFAULT 0 COMMENT '执行时长(毫秒)',
-    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '执行时间',
-    PRIMARY KEY (`id`),
-    KEY `idx_job_id` (`job_id`),
-    KEY `idx_create_time` (`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='定时任务日志表';
-
--- 文件表
-CREATE TABLE `sys_file` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '文件ID',
-    `original_name` VARCHAR(255) NOT NULL COMMENT '原始文件名',
-    `file_name` VARCHAR(255) NOT NULL COMMENT '存储文件名',
-    `file_path` VARCHAR(500) NOT NULL COMMENT '文件存储路径',
-    `file_size` BIGINT DEFAULT 0 COMMENT '文件大小(字节)',
-    `file_type` VARCHAR(100) DEFAULT NULL COMMENT '文件MIME类型',
-    `url` VARCHAR(500) DEFAULT NULL COMMENT '文件访问URL',
-    `create_by` VARCHAR(64) DEFAULT NULL COMMENT '上传人',
-    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `deleted` TINYINT DEFAULT 0 COMMENT '删除标志：0-未删除，1-已删除',
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统文件表';

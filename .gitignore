@@ -29,6 +29,7 @@ desktop.ini
 
 # === Docker ===
 docker-compose.override.yml
+*.tar
 
 # === Gemini / Agent / Claude ===
 .gemini/
