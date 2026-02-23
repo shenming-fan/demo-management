@@ -130,7 +130,7 @@ npm run dev
 #### 构建 & 启动
 
 ```bash
-cd C:\Users\范申铭\Desktop\demo-management
+cd /path/to/demo-management
 docker compose up -d --build
 ```
 
