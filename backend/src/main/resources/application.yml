@@ -87,14 +87,9 @@ knife4j:
   setting:
     language: zh_cn
 
-# 自定义配置
 admin:
   # 文件上传路径
   upload-path: ./uploads
-  cors:
-    # CORS允许来源（支持通配模式）
-    allowed-origin-patterns:
-      - "*"
   # 不需要认证的路径
   white-list:
     - /auth/login
