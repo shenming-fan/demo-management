@@ -447,10 +447,12 @@ const User: React.FC = () => {
             <Input disabled={!!editingId} />
           </Form.Item>
           {!editingId && (
-            <Form.Item name="password" label="密码" rules={[{ required: true, message: '请输入密码' }, { min: 6, message: '密码至少6位' }]}>
-              <Input.Password onChange={(e) => setNewPassword(e.target.value)} />
+            <>
+              <Form.Item name="password" label="密码" rules={[{ required: true, message: '请输入密码' }, { min: 6, message: '密码至少6位' }]}>
+                <Input.Password onChange={(e) => setNewPassword(e.target.value)} />
+              </Form.Item>
               <PasswordStrength password={newPassword} />
-            </Form.Item>
+            </>
           )}
           <Form.Item name="nickname" label="昵称" rules={[{ required: true, message: '请输入昵称' }]}>
             <Input />
