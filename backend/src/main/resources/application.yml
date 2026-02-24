@@ -94,10 +94,7 @@ admin:
   cors:
     # CORS允许来源（支持通配模式）
     allowed-origin-patterns:
-      - http://localhost:3000
-      - http://127.0.0.1:3000
-      - http://localhost
-      - http://127.0.0.1
+      - "*"
   # 不需要认证的路径
   white-list:
     - /auth/login
